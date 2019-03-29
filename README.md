@@ -1,3 +1,19 @@
+GCS Avro to Spanner (no checksum version)
+
+```sh
+mvn compile exec:java \
+-Dexec.mainClass=com.google.cloud.teleport.templates.AvroToSpanner \
+-Dexec.cleanupDaemonThreads=false \
+-Dexec.args=" \
+--project=<project-id> \
+--stagingLocation=gs://<bucket-name>/staging \
+--tempLocation=gs://<bucket-name>/temp \
+--templateLocation=gs://<bucket-name>/templates/AvroToSpanner.json \
+--runner=DataflowRunner
+```
+
+
+
 # Google Cloud Dataflow Template Pipelines
 
 These Dataflow templates are an effort to solve simple, but large, in-Cloud data

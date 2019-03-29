@@ -509,25 +509,25 @@ public class ImportTransform extends PTransform<PBegin, PDone> {
 
     private void validateGcsFiles(
         ProcessContext c, String table, TableManifest manifest) {
-      org.apache.beam.sdk.util.GcsUtil gcsUtil =
-          c.getPipelineOptions().as(GcsOptions.class).getGcsUtil();
+//      org.apache.beam.sdk.util.GcsUtil gcsUtil =
+//          c.getPipelineOptions().as(GcsOptions.class).getGcsUtil();
       // Convert file names to GcsPaths.
       List<GcsPath> gcsPaths =
           Lists.transform(
               manifest.getFilesList(),
               f -> GcsPath.fromUri(importDirectory.get()).resolve(f.getName()));
-      List<String> checksums = FileChecksum.getGcsFileChecksums(gcsUtil, gcsPaths);
+//      List<String> checksums = FileChecksum.getGcsFileChecksums(gcsUtil, gcsPaths);
       for (int i = 0; i < gcsPaths.size(); i++) {
         GcsPath path = gcsPaths.get(i);
         String fileName = gcsPaths.get(i).getFileName().getObject();
         String expectedHash = manifest.getFiles(i).getMd5();
-        String actualHash = checksums.get(i);
-        Verify.verify(
-            expectedHash.equals(actualHash),
-            "Inconsistent file: %s expected hash %s actual hash %s",
-            fileName,
-            expectedHash,
-            actualHash);
+//        String actualHash = checksums.get(i);
+//        Verify.verify(
+//            expectedHash.equals(actualHash),
+//            "Inconsistent file: %s expected hash %s actual hash %s",
+//            fileName,
+//            expectedHash,
+//            actualHash);
         c.output(KV.of(table, path.toString()));
       }
     }
@@ -535,14 +535,14 @@ public class ImportTransform extends PTransform<PBegin, PDone> {
     private void validateLocalFiles(ProcessContext c, String table, TableManifest manifest) {
       for (TableManifest.File file : manifest.getFilesList()) {
         Path filePath = Paths.get(importDirectory.get(), file.getName());
-        String actualHash = FileChecksum.getLocalFileChecksum(filePath);
-        String expectedHash = file.getMd5();
-        Verify.verify(
-            expectedHash.equals(actualHash),
-            "Inconsistent file: %s expected hash %s actual hash %s",
-            filePath,
-            expectedHash,
-            actualHash);
+//        String actualHash = FileChecksum.getLocalFileChecksum(filePath);
+//        String expectedHash = file.getMd5();
+//        Verify.verify(
+//            expectedHash.equals(actualHash),
+//            "Inconsistent file: %s expected hash %s actual hash %s",
+//            filePath,
+//            expectedHash,
+//            actualHash);
         c.output(KV.of(table, filePath.toString()));
       }
     }
